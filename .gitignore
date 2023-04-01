@@ -1,0 +1,4 @@
+credentials/bot.yaml
+.idea/*
+# ignore tmp created databases
+**/*.db
