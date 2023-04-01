@@ -102,6 +102,9 @@ async def process_numbers_answer(message: Message):
                 user.in_game = False
                 # don't forget to set attempts to None:
                 user.attempts = None
+                # also vanish info about secret number:
+                user.secret_number = None
+                # increment stats:
                 user.total_games += 1
                 user.wins += 1
 
