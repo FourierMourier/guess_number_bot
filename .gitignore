@@ -1,4 +1,9 @@
+# ignore any real credentials
 credentials/bot.yaml
+# ignore ide settings:
 .idea/*
 # ignore tmp created databases
 **/*.db
+# ignore any migrations data:
+alembic.ini
+alembic/*

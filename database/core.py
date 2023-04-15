@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncConne
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.sql import select, update, delete
-from sqlalchemy import Column, Integer, Boolean
+from sqlalchemy import Column, Integer, Boolean, String
 
 from utils.common.general import infoColorstr
 
@@ -23,6 +23,7 @@ TABLE_NAME: str = 'users'
 DB_NAME: str = 'guess_number_bot.db'
 
 Base = declarative_base()
+Metadata = Base.metadata
 
 
 class UserTable(Base):
@@ -34,6 +35,7 @@ class UserTable(Base):
     attempts = Column(Integer)
     total_games = Column(Integer)
     wins = Column(Integer)
+    lang = Column(String)
 
 
 # echo for logging all sql-statements to the console adn future for 2.0 features support
@@ -71,15 +73,6 @@ class SyncSqliteConnection:
         self.cursor = None
         self.connection = None
 
-# async def check_table_existence(table_name: str,
-#                                 conn: AsyncConnection,
-#                                 # session: sqlalchemy.orm.Session,
-#                                 ) -> bool:
-#     # inspector = sqlalchemy.inspect(session.bind)
-#     # return table_name in inspector.get_table_names()
-#     return await conn.run_sync(
-#         sqlalchemy.inspect, table_name
-#     ).is_table_defined(table_name, schema=None)
 
 async def check_table_existence(table_name: str,
                                 conn: AsyncConnection,
