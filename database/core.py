@@ -13,6 +13,9 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.sql import select, update, delete
 from sqlalchemy import Column, Integer, Boolean
 
+from utils.common.general import infoColorstr
+
+
 ROOT: Path = Path(__file__).parents[0]
 PROJECT_ROOT: Path = ROOT.parents[0]
 
@@ -41,6 +44,32 @@ engine = create_async_engine(DATABASE_URI, echo=True, future=True)
 # async_session = sessionmaker(engine, class_=AsyncSession)
 async_sessionmaker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=True) # False)
 
+
+class SyncSqliteConnection:
+    """
+    Please use this class as the context manager like
+        with SyncSqliteConnection(DB_NAME) as cursor:
+            user: Optional[UserModel] = get_user_by_id(user_id, cursor=cursor)
+    but for async code use
+    """
+
+    __slots__ = ('db_name', 'connection', 'cursor')
+
+    def __init__(self, db_name: str):
+        self.db_name = db_name
+        self.connection: Optional[sqlite3.Connection] = None
+        self.cursor: Optional[sqlite3.Cursor] = None
+
+    def __enter__(self) -> sqlite3.Cursor:
+        self.connection = sqlite3.connect(self.db_name)
+        self.cursor = self.connection.cursor()
+        return self.cursor
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.cursor.close()
+        self.connection.close()
+        self.cursor = None
+        self.connection = None
 
 # async def check_table_existence(table_name: str,
 #                                 conn: AsyncConnection,
@@ -75,7 +104,8 @@ async def create_users_table():
         # async with async_sessionmaker() as session:
         if not await check_table_existence(UserTable.__tablename__, conn):  # session):
             await conn.run_sync(Base.metadata.create_all)
-
+        else:
+            print(infoColorstr(f"There's already database with users table at {DATABASE_URI}"))
 
 # create the users table when the module is imported
 asyncio.run(create_users_table())
