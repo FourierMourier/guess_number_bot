@@ -7,10 +7,11 @@ from constants.game import GameConstants
 
 import sqlite3
 from database import UserModel, get_user_by_id, insert_user, update_user_data, DB_NAME
-from lexicon.general import LEXICON_EN
+from lexicon.general import Lexicon, Commands # LEXICON_EN
 
 import random
 
+from utils.common.general import colorstr, infoColorstr
 from typing import Optional
 
 router: Router = Router()
@@ -29,13 +30,13 @@ async def process_cancel_command(message: Message) -> None:
 
     user: Optional[UserModel] = get_user_by_id(user_id, cursor=cursor)
     if user is None:
-        await message.answer(f"We haven't played yet so statistics is empty. Shall we?")
+        await message.answer(Lexicon.get_response(Commands.NO_GAME_YET))
     else:
         if user.in_game is True:
-            await message.answer(f"you quited the game. If you want to try again - type '/start'")
+            await message.answer(Lexicon.get_response(Commands.GAME_CANCELLED))  # LEXICON_EN['game_cancelled'])
             user.in_game = False
         else:
-            await message.answer(f"you've already quited the game. If you wan to try again - type '/start'")
+            await message.answer(Lexicon.get_response(Commands.ALREADY_IN_GAME))  # LEXICON_EN['already_in_game'])
     cursor.close()
     connection.close()
 
@@ -50,7 +51,7 @@ async def process_positive_answer(message: Message) -> None:
 
     user: Optional[UserModel] = get_user_by_id(user_id, cursor=cursor)
     if user is None:
-        await message.answer(LEXICON_EN['no_game_yet'])
+        await message.answer(Lexicon.get_response(Commands.NO_GAME_YET)) #  LEXICON_EN['no_game_yet'])
     else:
         if user.in_game is False:
             await message.answer(f"I guessed the number from 1 to 100")
@@ -59,7 +60,7 @@ async def process_positive_answer(message: Message) -> None:
             user.attempts = GameConstants.attempts
             update_user_data(user, connection=connection)
         else:
-            await message.answer(LEXICON_EN['already_in_game'])
+            await message.answer(Lexicon.get_response(Commands.ALREADY_IN_GAME)) # LEXICON_EN['already_in_game'])
     cursor.close()
     connection.close()
 
@@ -73,7 +74,7 @@ async def process_negative_answer(message: Message):
 
     user: Optional[UserModel] = get_user_by_id(user_id, cursor=cursor)
     if user is None:
-        await message.answer(f"We haven't played yet. Shall we /start?")
+        await message.answer(Lexicon.get_response(Commands.NO_GAME_YET))
     else:
         if not user.in_game:
             await message.answer(f"=(")
@@ -93,7 +94,7 @@ async def process_numbers_answer(message: Message):
 
     user: Optional[UserModel] = get_user_by_id(user_id, cursor=cursor)
     if user is None:
-        await message.answer(LEXICON_EN['no_game_yet'])
+        await message.answer(Lexicon.get_response(Commands.NO_GAME_YET)) # LEXICON_EN['no_game_yet'])
     else:
         if user.in_game:
             if int(message.text) == user.secret_number:
@@ -122,10 +123,10 @@ async def process_numbers_answer(message: Message):
                 user.total_games += 1
             # finally update state:
             update_user_data(user, connection=connection)
-            print(f"user with id={user_id} was updated in database")
+            print(infoColorstr(f"user with id={user_id} was updated in database"))
 
         else:
-            await message.answer(LEXICON_EN['no_game_yet'])
+            await message.answer(Lexicon.get_response(Commands.NO_GAME_YET)) # LEXICON_EN['no_game_yet'])
 
     cursor.close()
     connection.close()
