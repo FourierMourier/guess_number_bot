@@ -16,6 +16,8 @@ ROOT: Path = Path(__file__).parents[0]
 class Commands:
     START: str = "start"
     HELP: str = "help"
+    # don't pass simple /cancel command because there are at least 2 possibilities:
+    #   user may be in game and not (and so there's nothing to cancel)
     # CANCEL = "/cancel"
     # STAT = "stat"
     NO_GAME_YET: str = 'no_game_yet'

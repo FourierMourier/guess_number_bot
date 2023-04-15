@@ -6,7 +6,7 @@ from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message, ContentType
 
-from lexicon.general import LEXICON_EN
+from lexicon.general import Lexicon, Commands # LEXICON_EN
 
 from database import UserModel, get_user_by_id, insert_user, DB_NAME
 
@@ -35,7 +35,7 @@ async def process_start_command(message: Message) -> None:
         insert_user(user, connection=connection)
         print(f"user with id = {user_id} was inserted: {user}")
 
-    await message.answer(LEXICON_EN['/start'])
+    await message.answer(Lexicon.get_response(Commands.START))
 
     cursor.close()
     connection.close()
@@ -43,7 +43,7 @@ async def process_start_command(message: Message) -> None:
 
 @router.message(Command(commands=['help']))
 async def process_help_command(message: Message) -> None:
-    await message.answer(LEXICON_EN['/help'])
+    await message.answer(Lexicon.get_response(Commands.HELP))
 
 
 @router.message(Command(commands=['stat']))
@@ -55,7 +55,7 @@ async def process_stat_command(message: Message) -> None:
 
     user: Optional[UserModel] = get_user_by_id(user_id, cursor=cursor)
     if user is None:
-        await message.answer(f"We haven't played yet so statistics is empty. Shall we?")
+        await message.answer(Lexicon.get_response(Commands.NO_GAME_YET))
     else:
         await message.answer((f"Games so far: {user.total_games}\n"
                               f"wins: {user.wins}\n"
@@ -73,7 +73,7 @@ async def process_other_text_answers(message: Message):
 
     user: Optional[UserModel] = get_user_by_id(user_id, cursor=cursor)
     if user is None:
-        await message.answer(LEXICON_EN['no_game_yet'])
+        await message.answer(Lexicon.get_response(Commands.NO_GAME_YET))
     else:
         if user.in_game:
             await message.answer(f"We've already in game. Please send numbers from 1 to 100")
