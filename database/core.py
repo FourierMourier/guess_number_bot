@@ -13,13 +13,11 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.sql import select, update, delete
 from sqlalchemy import Column, Integer, Boolean
 
-
 ROOT: Path = Path(__file__).parents[0]
 PROJECT_ROOT: Path = ROOT.parents[0]
 
 TABLE_NAME: str = 'users'
 DB_NAME: str = 'guess_number_bot.db'
-
 
 Base = declarative_base()
 
@@ -41,7 +39,7 @@ DATABASE_URI: str = f'sqlite+aiosqlite:///{DATABASE_PATH}'
 engine = create_async_engine(DATABASE_URI, echo=True, future=True)
 # Create a sessionmaker
 # async_session = sessionmaker(engine, class_=AsyncSession)
-async_sessionmaker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+async_sessionmaker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=True) # False)
 
 
 # async def check_table_existence(table_name: str,
@@ -75,12 +73,12 @@ async def check_table_existence(table_name: str,
 async def create_users_table():
     async with engine.begin() as conn:
         # async with async_sessionmaker() as session:
-        if not await check_table_existence(UserTable.__tablename__, conn): # session):
+        if not await check_table_existence(UserTable.__tablename__, conn):  # session):
             await conn.run_sync(Base.metadata.create_all)
+
 
 # create the users table when the module is imported
 asyncio.run(create_users_table())
-
 
 
 # def check_table_existence(table_name: str, cursor: sqlite3.Cursor) -> bool:
@@ -92,8 +90,6 @@ asyncio.run(create_users_table())
 #     else:
 #         return False
 
-
-
 class UserModel(pydantic.BaseModel):
     id: int
     in_game: bool
@@ -101,7 +97,6 @@ class UserModel(pydantic.BaseModel):
     attempts: Optional[int]
     total_games: int
     wins: int
-
 
 # # Connect to the database
 # connection = sqlite3.connect(DB_NAME)

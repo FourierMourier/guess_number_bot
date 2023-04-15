@@ -1,20 +1,40 @@
 import sqlite3
-from .core import UserModel
+from .core import UserModel, UserTable
+
+import sqlalchemy
+from sqlalchemy.ext.asyncio import AsyncSession  # AsyncConnection
 
 from typing import Optional
 
 
-def get_user_by_id(user_id: int, cursor: sqlite3.Cursor) -> Optional[UserModel]:
-    query = "SELECT * FROM users WHERE id = ?"
-    cursor.execute(query, (user_id,))
-    row = cursor.fetchone()
+# def get_user_by_id(user_id: int, cursor: sqlite3.Cursor) -> Optional[UserModel]:
+#     query = "SELECT * FROM users WHERE id = ?"
+#     cursor.execute(query, (user_id,))
+#     row = cursor.fetchone()
+#     if row is not None:
+#         user = UserModel(id=row[0],
+#                          in_game=bool(row[1]),
+#                          secret_number=row[2],
+#                          attempts=row[3],
+#                          total_games=row[4],
+#                          wins=row[5],)
+#         return user
+#     return None
+
+
+async def get_user_by_id(user_id: int, session: AsyncSession) -> Optional[UserModel]:
+    stmt = sqlalchemy.select(UserTable).where(UserTable.id == user_id)
+    result = await session.execute(stmt)
+    row = result.fetchone()
     if row is not None:
-        user = UserModel(id=row[0],
-                         in_game=bool(row[1]),
-                         secret_number=row[2],
-                         attempts=row[3],
-                         total_games=row[4],
-                         wins=row[5],)
+        user = UserModel(
+            id=row[0],
+            in_game=bool(row[1]),
+            secret_number=row[2],
+            attempts=row[3],
+            total_games=row[4],
+            wins=row[5],
+        )
         return user
     return None
 
