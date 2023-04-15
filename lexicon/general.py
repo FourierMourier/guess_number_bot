@@ -19,10 +19,11 @@ class Commands:
     # don't pass simple /cancel command because there are at least 2 possibilities:
     #   user may be in game and not (and so there's nothing to cancel)
     # CANCEL = "/cancel"
-    # STAT = "stat"
+    STATS = "stats"
     NO_GAME_YET: str = 'no_game_yet'
     ALREADY_IN_GAME: str = 'already_in_game'
     GAME_CANCELLED: str = 'game_cancelled'
+    GAME_IN_PROGRESS: str = 'game_in_progress'
 
 
 class MissedLexiconLanguages(Exception):

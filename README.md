@@ -1,7 +1,9 @@
 # Guess Number Bot
 This is a simple Telegram bot that plays a game where the bot will guess a number and the user has a limited number of attempts to guess it. The bot writes the results of the games to a SQLite database and provides a command to show statistics.
 
-## Installation
+
+## Getting started
+### Installation
 To use this bot, you first need to create a Telegram bot and obtain a token. Follow the instructions provided by [Telegram documentation](https://core.telegram.org/bots#6-botfather) to create your bot and obtain the token.
 
 Then, clone this repository
@@ -36,23 +38,32 @@ pip install -r requirements.txt
 ```
 </details>
 
-## Usage
+###  Usage
+
+* Create a new file named `bot.yaml` in the `credentials/` directory. 
+* Copy the contents of `bot.example.yaml` into `bot.yaml`.
+* replace contentes in `bot.yaml` with your real ones (e.g token)
+
 To start the bot, run the following command:
 
-Copy code
+```shell
 python bot.py
+```
 You can interact with the bot in Telegram by searching for your bot's username and sending a message.
 
-The following commands are supported:
-
-* /start - Start the game.
-* /stop - Stop the game.
-* /stats - Show statistics of the games.
-
-
+<details> 
+    <summary> <b> Supported commands </b> </summary>
+    * /start - Start the game.
+    * /cancel - Cancel the game.
+    * /stats - Show statistics of the games.
+</details>
 
 ## Database
 The bot uses a SQLite database to store the results of the games. The database file is created automatically when the bot starts and is located in the database/ directory.
 
 ## License
 For now no license :)
+
+## TODOs:
+
+* Add languages support via inline buttons

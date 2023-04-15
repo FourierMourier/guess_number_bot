@@ -1,13 +1,23 @@
 # file should be read with encoding='utf-8'
 start:
-  en: "Hi, I will generate a number and you will try to guess it.\nYou can also use commands /help or /stat"
-  es: "Hola, generaré un número y deberás adivinarlo.\nTambién puedes usar los comandos /help o /stat"
-  ru: "Привет, я сгенерирую число, а ты попытаешься его угадать.\nТакже ты можешь использовать команды /help или /stat"
+  en: "Hi, I will generate a number and you will try to guess it.\nYou can also use commands /help or /stats"
+  es: "Hola, generaré un número y deberás adivinarlo.\nTambién puedes usar los comandos /help o /stats"
+  ru: "Привет, я сгенерирую число, а ты попытаешься его угадать.\nТакже ты можешь использовать команды /help или /stats"
 
 help:
-  en: "Rules: I'll guess a number between 1 and 100, and you will try to guess it.\nYou have 5 attempts.\nAvailable commands:\n/help - rules & available commands,\n/cancel - to quit the game,\n/stat - get statistics"
-  es: "Reglas: Yo generaré un número entre 1 y 100, y tú deberás adivinarlo.\nTienes 5 intentos.\nComandos disponibles:\n/help - reglas y comandos disponibles,\n/cancel - para salir del juego,\n/stat - obtener estadísticas"
-  ru: "Правила: Я загадаю число от 1 до 100, а ты должен его отгадать.\nУ тебя будет 5 попыток.\nДоступные команды:\n/help - правила и доступные команды,\n/cancel - выйти из игры,\n/stat - статистика"
+  en: "Rules: I'll guess a number between 1 and 100, and you will try to guess it.\nYou have 5 attempts.\nAvailable commands:\n/help - rules & available commands,\n/cancel - to quit the game,\n/stats - get statistics"
+  es: "Reglas: Yo generaré un número entre 1 y 100, y tú deberás adivinarlo.\nTienes 5 intentos.\nComandos disponibles:\n/help - reglas y comandos disponibles,\n/cancel - para salir del juego,\n/stats - obtener estadísticas"
+  ru: "Правила: Я загадаю число от 1 до 100, а ты должен его отгадать.\nУ тебя будет 5 попыток.\nДоступные команды:\n/help - правила и доступные команды,\n/cancel - выйти из игры,\n/stats - статистика"
+
+stats:
+  en: "Games so far: {}\nwins: {}\nattempts: {}"
+  es: "Juegos hasta ahora: {}\nganados: {}\nintentos: {}"
+  ru: "Игр сыграно: {}\nпобед: {}\nпопыток: {}"
+
+game_in_progress:
+  en: "We're already in game. Please send numbers from 1 to 100"
+  es: "Ya estamos jugando. Por favor, envía números del 1 al 100"
+  ru: "Мы уже в игре. Пожалуйста, отправьте числа от 1 до 100"
 
 no_game_yet:
   en: "We haven't played yet. Shall we /start?"
@@ -15,9 +25,9 @@ no_game_yet:
   ru: "Мы еще не играли. Начнем с команды /start?"
 
 already_in_game:
-  en: "We're already in the game. I will respond only to numbers and commands /cancel and /stat"
-  es: "Ya estamos jugando. Solo responderé a números y comandos /cancel y /stat"
-  ru: "Мы уже играем. Я буду отвечать только на числа и команды /cancel и /stat"
+  en: "We're already in the game. I will respond only to numbers and commands /cancel and /stats"
+  es: "Ya estamos jugando. Solo responderé a números y comandos /cancel y /stats"
+  ru: "Мы уже играем. Я буду отвечать только на числа и команды /cancel и /stats"
 
 game_cancelled:
   en: "you quited the game. If you want to try again - type '/start'"

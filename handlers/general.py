@@ -46,7 +46,7 @@ async def process_help_command(message: Message) -> None:
     await message.answer(Lexicon.get_response(Commands.HELP))
 
 
-@router.message(Command(commands=['stat']))
+@router.message(Command(commands=['stats']))
 async def process_stat_command(message: Message) -> None:
     user_id: int = message.from_user.id
     # create connection
@@ -57,9 +57,8 @@ async def process_stat_command(message: Message) -> None:
     if user is None:
         await message.answer(Lexicon.get_response(Commands.NO_GAME_YET))
     else:
-        await message.answer((f"Games so far: {user.total_games}\n"
-                              f"wins: {user.wins}\n"
-                              f"attemps: {user.attempts}"))
+        await message.answer(Lexicon.get_response(Commands.STATS).format(user.total_games, user.wins, user.attempts))
+
     cursor.close()
     connection.close()
 
@@ -76,9 +75,9 @@ async def process_other_text_answers(message: Message):
         await message.answer(Lexicon.get_response(Commands.NO_GAME_YET))
     else:
         if user.in_game:
-            await message.answer(f"We've already in game. Please send numbers from 1 to 100")
+            await message.answer(Lexicon.get_response(Commands.GAME_IN_PROGRESS))
         else:
-            await message.answer(f"Start the game")
+            await message.answer(Lexicon.get_response(Commands.START))
 
     cursor.close()
     connection.close()
