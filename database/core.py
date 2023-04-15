@@ -3,9 +3,42 @@ import pydantic
 from typing import Optional, List, Dict
 import datetime
 
+import asyncio
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, Boolean
+
 
 TABLE_NAME: str = 'users'
 DB_NAME: str = 'guess_number_bot.db'
+
+
+Base = declarative_base()
+
+
+class UserTable(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    in_game = Column(Boolean)
+    secret_number = Column(Integer)
+    attempts = Column(Integer)
+    total_games = Column(Integer)
+    wins = Column(Integer)
+
+
+engine = create_async_engine(f'sqlite+aiosqlite:///{DB_NAME}')
+
+
+# create the users table if it doesn't exist
+async def create_users_table():
+    async with engine.begin() as conn: # 'users'
+        if not await conn.run_sync(Base.metadata.tables[UserTable.__tablename__].exists):
+            await conn.run_sync(Base.metadata.create_all)
+
+# create the users table when the module is imported
+asyncio.run(create_users_table())
+
 
 
 def check_table_existence(table_name: str, cursor: sqlite3.Cursor) -> bool:
