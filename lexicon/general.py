@@ -71,7 +71,7 @@ class LexiconModel:
         self._lexicon = value
 
     def get_response(self, command: str, language: Optional[str] = None):
-        language = language or 'en'
+        language = language or self.en_lang  # 'en'
         command = command.lstrip('/')
         command_responses: Union[str, Dict[str, str]] = self.lexicon.get(command, self.no_command_found_response)
         if command_responses == self.no_command_found_response:

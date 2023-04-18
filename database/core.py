@@ -120,6 +120,7 @@ class UserModel(pydantic.BaseModel):
     attempts: Optional[int]
     total_games: int
     wins: int
+    lang: Optional[str]
 
 # # Connect to the database
 # connection = sqlite3.connect(DB_NAME)

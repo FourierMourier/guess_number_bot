@@ -36,6 +36,7 @@ async def get_user_by_id(user_id: int, session: AsyncSession) -> Optional[UserMo
             attempts=table_row.attempts,
             total_games=table_row.total_games,
             wins=table_row.wins,
+            lang=table_row.lang
         )
         return user
     return None
@@ -95,7 +96,8 @@ async def update_user_data(user: UserModel, session: AsyncSession) -> None:
             secret_number=user.secret_number,
             attempts=user.attempts,
             total_games=user.total_games,
-            wins=user.wins
+            wins=user.wins,
+            lang=user.lang,
         )
         await session.execute(stmt)
         await session.commit()
