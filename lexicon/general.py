@@ -36,7 +36,7 @@ class MissedCommands(Exception):
 
 class LexiconModel:
     en_lang: str = 'en'
-    supported_languages: Set[str] = {en_lang, 'ru', 'es'}
+    _supported_languages: Set[str] = {en_lang, 'ru', 'es'}
     no_command_found_response: str = "Command not found."
 
     __slots__ = ('_lexicon', )
@@ -45,6 +45,10 @@ class LexiconModel:
         lexicon_filepath = lexicon_filepath or ROOT / 'lexicon.yaml'
 
         self.lexicon: Dict[str, Dict[str, str]] = load_yaml(lexicon_filepath, encoding='utf-8')
+
+    @property
+    def supported_languages(self) -> List[str]:
+        return sorted(list(self._supported_languages))
 
     @property
     def lexicon(self) -> Dict[str, Any]:
