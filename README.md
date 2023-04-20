@@ -63,7 +63,3 @@ The bot uses a SQLite database to store the results of the games. The database f
 
 ## License
 For now no license :)
-
-## TODOs:
-
-* Add languages support via inline buttons
