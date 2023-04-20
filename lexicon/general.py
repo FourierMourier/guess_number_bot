@@ -67,7 +67,7 @@ class LexiconModel:
         # 2. check languages
         for command, lang_to_answer in value.items():
             langs_set: Set[str] = set(lang_to_answer.keys())
-            missing_languages = self.supported_languages - langs_set
+            missing_languages = self._supported_languages - langs_set
             if missing_languages:
                 raise MissedLexiconLanguages(
                     f"Not enough languages: for command {command}, missing {', '.join(missing_languages)}")
