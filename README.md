@@ -42,7 +42,7 @@ pip install -r requirements.txt
 
 * Create a new file named `bot.yaml` in the `credentials/` directory. 
 * Copy the contents of `bot.example.yaml` into `bot.yaml`.
-* replace contentes in `bot.yaml` with your real ones (e.g token)
+* replace contentes in `bot.yaml` with your real ones (e.g. token)
 
 To start the bot, run the following command:
 
@@ -56,6 +56,7 @@ You can interact with the bot in Telegram by searching for your bot's username a
     * /start - Start the game.
     * /cancel - Cancel the game.
     * /stats - Show statistics of the games.
+    * /lang - Inline keyboard to switch the languages (en, es, ru)
 </details>
 
 ## Database
