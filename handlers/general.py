@@ -1,3 +1,5 @@
+import datetime
+
 import aiogram
 import asyncio
 import sqlite3
@@ -55,6 +57,7 @@ async def process_start_command(message: Message) -> None:
         user: Optional[UserModel] = await get_user_by_id(user_id, session=session)
 
         lang: Optional[str] = None
+        curr_dt = datetime.datetime.now()
         if user is None:
             user = UserModel(id=user_id,
                              in_game=False,
@@ -63,6 +66,7 @@ async def process_start_command(message: Message) -> None:
                              total_games=0,
                              wins=0,
                              lang=None,
+                             last_activity_dt=curr_dt,
                              )
 
             session.add(user)

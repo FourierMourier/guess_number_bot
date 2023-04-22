@@ -1,3 +1,5 @@
+import datetime
+
 import aiogram
 from aiogram import Router
 from aiogram.filters import Command
@@ -99,6 +101,8 @@ async def process_positive_answer(message: Message) -> None:
                 user.in_game = True
                 user.secret_number = get_random_number()
                 user.attempts = GameConstants.attempts
+                user.last_activity_dt = datetime.datetime.now()
+
                 await update_user_data(user, session=session)
             else:
                 await message.answer(Lexicon.get_response(Commands.ALREADY_IN_GAME))

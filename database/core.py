@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncConne
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.sql import select, update, delete
-from sqlalchemy import Column, Integer, Boolean, String
+from sqlalchemy import Column, Integer, Boolean, String, DateTime
 
 from utils.common.general import infoColorstr
 
@@ -36,7 +36,8 @@ class UserTable(Base):
     total_games = Column(Integer)
     wins = Column(Integer)
     lang = Column(String)
-
+    last_activity_dt = Column(DateTime, default=datetime.datetime.utcnow)
+    # last_activity_dt = Column(DateTime, default=None)
 
 # echo for logging all sql-statements to the console adn future for 2.0 features support
 DATABASE_PATH: str = str(PROJECT_ROOT / DB_NAME)
@@ -121,6 +122,7 @@ class UserModel(pydantic.BaseModel):
     total_games: int
     wins: int
     lang: Optional[str]
+    last_activity_dt: Optional[datetime.datetime]
 
 # # Connect to the database
 # connection = sqlite3.connect(DB_NAME)
