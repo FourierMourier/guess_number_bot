@@ -39,6 +39,7 @@ class UserTable(Base):
     last_activity_dt = Column(DateTime, default=datetime.datetime.utcnow)
     # last_activity_dt = Column(DateTime, default=None)
 
+
 # echo for logging all sql-statements to the console adn future for 2.0 features support
 DATABASE_PATH: str = str(PROJECT_ROOT / DB_NAME)
 DATABASE_URI: str = f'sqlite+aiosqlite:///{DATABASE_PATH}'

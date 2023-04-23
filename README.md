@@ -53,10 +53,12 @@ You can interact with the bot in Telegram by searching for your bot's username a
 
 <details> 
     <summary> <b> Supported commands </b> </summary>
-    * /start - Start the game.
-    * /cancel - Cancel the game.
-    * /stats - Show statistics of the games.
-    * /lang - Inline keyboard to switch the languages (en, es, ru)
+    <ul>
+        <li>/start - Start the game.</li>
+        <li>/cancel - Cancel the game.</li>
+        <li>/stats - Show statistics of the games.</li>
+        <li>/lang - Inline keyboard to switch the languages (en, es, ru)</li>
+    </ul>
 </details>
 
 ## Database

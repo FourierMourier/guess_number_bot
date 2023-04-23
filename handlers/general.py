@@ -12,8 +12,10 @@ from aiogram.types import Message, ContentType, CallbackQuery, InlineQuery
 
 from lexicon.general import Lexicon, Commands # LEXICON_EN
 
+import sqlalchemy
 from database.core import async_sessionmaker, AsyncSession
-from database import UserModel, get_user_by_id, insert_user, update_user_data, DB_NAME
+from database import UserModel, get_user_by_id, insert_user, update_user_data, DB_NAME, add_new_user
+from database.core import UserTable
 
 # additional ones:
 from keyboards.basic.language import LANG_MSG_START, InlineLanguageKeyboard # get_keyboard # LanguageKeyboard
@@ -59,19 +61,10 @@ async def process_start_command(message: Message) -> None:
         lang: Optional[str] = None
         curr_dt = datetime.datetime.now()
         if user is None:
-            user = UserModel(id=user_id,
-                             in_game=False,
-                             secret_number=None,
-                             attempts=None,
-                             total_games=0,
-                             wins=0,
-                             lang=None,
-                             last_activity_dt=curr_dt,
-                             )
-
-            session.add(user)
-            await session.commit()
+            await add_new_user(user_id, curr_dt, session)
             print(f"user with id = {user_id} was inserted: {user}")
+
+        else:
             lang = user.lang
 
         await message.answer(Lexicon.get_response(Commands.START, lang))
@@ -135,7 +128,7 @@ async def process_callback_language(callback_query: CallbackQuery):#, state: FSM
             # commit is inside update func
             # await session.commit()
         # Send a confirmation message to the user
-        await callback_query.answer(f"Language set to {language}")
+        await callback_query.answer(f"Language was set to {language}")
     else:
         await callback_query.answer("Unsupported language selected")
 
