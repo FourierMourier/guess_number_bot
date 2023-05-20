@@ -65,4 +65,4 @@ You can interact with the bot in Telegram by searching for your bot's username a
 The bot uses a SQLite database to store the results of the games. The database file is created automatically when the bot starts and is located in the database/ directory.
 
 ## License
-For now no license :)
+Under Apache 2.0

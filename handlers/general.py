@@ -14,7 +14,7 @@ from lexicon.general import Lexicon, Commands # LEXICON_EN
 
 import sqlalchemy
 from database.core import async_sessionmaker, AsyncSession
-from database import UserModel, get_user_by_id, insert_user, update_user_data, DB_NAME, add_new_user
+from database import UserModel, get_user_by_id, update_user_data, DB_NAME, add_new_user
 from database.core import UserTable
 
 # additional ones:
@@ -77,8 +77,8 @@ async def process_help_command(message: Message) -> None:
     user_id: int = message.from_user.id
     async with async_sessionmaker() as session:
         user: Optional[UserModel] = await get_user_by_id(user_id, session=session)
-
-        lang = user.lang
+        if user is not None:
+            lang = user.lang
 
     await message.answer(Lexicon.get_response(Commands.HELP, lang))
 

@@ -9,16 +9,14 @@ from handlers import game, general
 from utils.common.general import colorstr, infoColorstr, warningColorstr
 from utils.common.wrappers import async_time_counter
 
-import sqlalchemy
 from database.core import async_sessionmaker, AsyncSession, UserTable
 from database.actions import delete_inactive_users
-from typing import List
 
 
 @async_time_counter()
 async def delete_inactive_users_on_schedule():
     # for debug use 1.0
-    every_period: float = 10 # 60 * 60  # 1.0  # 60 * 60
+    every_period: float = 60 * 60  # 1.0  # 60 * 60
     # TODO: after you've deleted > max_deletions - return smth to quit the func
     max_deletions: int = 0 # 10
     performed_deletions: int = 0
